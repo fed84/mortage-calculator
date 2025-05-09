@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mortage calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="all">
+      <div class="utility-container1">
+        <div class="container-1">
+          <div class="title-container">
+            <div class="title">Mortage Calculator</div>
+            <div class="clear" onclick="clearAll();">Clear all</div>
+          </div>
+          <div class="mini-title">Mortage Amount</div>
+          <div class="mini-container1">
+            <button class="money-button">$</button>
+            <input
+              onkeydown="changeBorderInput()"
+              type="text"
+              class="amount-input"
+            />
+          </div>
+          <div class="term-rate-container">
+            <div class="mini-container">
+              <div class="mini-title">Mortage Term</div>
+              <div class="input-button-container">
+                <input type="text" class="years-input" />
+                <button class="years-button">Years</button>
+              </div>
+            </div>
+            <div class="mini-container">
+              <div class="mini-title">Interest Rate</div>
+              <div class="input-button-container">
+                <input type="text" class="rate-input" />
+                <button class="percent-button">%</button>
+              </div>
+            </div>
+          </div>
+          <div class="mini-title">Mortage Type</div>
+          <div class="choice-container">
+            <label class="choice1">
+              <input
+                onclick="changeBorder1();"
+                name="choice"
+                class="choice-input1"
+                type="radio"
+                checked
+              />Repayment
+            </label>
+            <label class="choice2">
+              <input
+                onclick="changeBorder2()"
+                name="choice"
+                class="choice-input2"
+                type="radio"
+              />Interest Only
+            </label>
+          </div>
+          <button onclick="calculateMortage();" class="calculate-button">
+            <img
+              class="calculator-img"
+              src="images/icon-calculator.svg" 
+            />Calculate Repayments
+          </button>
+        </div>
+      </div>
+      <div class="utility-container2">
+        <div class="container-3">
+        <img src="images/illustration-empty.svg" class="image">
+        <div class="message1">Results shown here</div>
+        <div class="message2">Complete the form and click "calculate repayments" to see what your mothly repayments would be</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let amount = document.querySelector(".amount-input").value;
+      let rate = document.querySelector(".rate-input").value;
+      let years = document.querySelector(".years-input").value;
+
+      let button1 = document.querySelector(".choice-input1");
+      let button2 = document.querySelector(".choice-input2");
+
+      let jsButton1 = document.querySelector(".choice1");
+      let jsButton2 = document.querySelector(".choice2");
+
+      function clearAll() {
+        document.querySelector(".amount-input").value = "";
+        document.querySelector(".rate-input").value = "";
+        document.querySelector(".years-input").value = "";
+      }
+
+      function calculateMortage() {
+        if (button1.checked) {
+          amount = Number(document.querySelector(".amount-input").value);
+          rate = Number(
+            Number(document.querySelector(".rate-input").value) / 100
+          );
+          years = Number(document.querySelector(".years-input").value) * 12;
+
+          let result =
+            Math.round(((amount + amount * rate) / years) * 100) / 100;
+          let totalAmount = amount + amount * rate;
+
+          document.querySelector(
+            ".utility-container2"
+          ).innerHTML = `<div class="container-2">
+          <div class="title2">Your Results</div>
+          <div class="description">
+            Your results are shown below based on the information you provided.
+            To adjust the results, edit the form and click "calculate
+            repayments" again.
+          </div>
+          <div class="result-div">
+            <div class="mini-title2">Your monthly repayments</div>
+            <div class="result">${result}</div>
+            <div class="line"></div>
+            <div class="mini-title2">Total you'll repay over the term</div>
+            <div class="result2">${totalAmount}</div>
+          </div>
+        </div>`;
+        }
+
+        if (button2.checked) {
+          amount = Number(document.querySelector(".amount-input").value);
+          rate = Number(
+            Number(document.querySelector(".rate-input").value) / 100
+          );
+          years = Number(document.querySelector(".years-input").value) * 12;
+
+          let result = Math.round(((amount * rate) / years) * 100) / 100;
+          let totalAmount = amount * rate;
+
+          document.querySelector(
+            ".utility-container2"
+          ).innerHTML = `<div class="container-2">
+          <div class="title2">Your Results</div>
+          <div class="description">
+            Your results are shown below based on the information you provided.
+            To adjust the results, edit the form and click "calculate
+            repayments" again.
+          </div>
+          <div class="result-div">
+            <div class="mini-title2">Your monthly repayments</div>
+            <div class="result">${result}</div>
+            <div class="line"></div>
+            <div class="mini-title2">Total you'll repay over the term</div>
+            <div class="result2">${totalAmount}</div>
+          </div>
+        </div>`;
+        }
+      }
+
+      function changeBorder1() {
+        jsButton1.classList.add("choice-active1");
+        jsButton2.classList.remove("choice-active2");
+      }
+
+      function changeBorder2() {
+        jsButton2.classList.add("choice-active2");
+        jsButton1.classList.remove("choice-active1");
+      }
+
+      function changeBorderInput() {
+        document
+          .querySelector(".amount-input")
+          .classList.add("amount-input-active");
+        document
+          .querySelector(".money-button")
+          .classList.add("money-button-active");
+      }
+    </script>
+  </body>
+</html>
